@@ -76,6 +76,7 @@ The seventh step was to edit the SQL file again using a text editor. The followi
 ## Create a new database in pgAdmin
 
 The eighth step was to create a new database in pgAdmin using the same name as `db_name`.
+The `.env` file was updated with `db_name`. 
 
 
 ## Run the migration using following command:
@@ -86,11 +87,6 @@ $ vendor/bin/phinx migrate -e development
 
 ## Run the latest project with PostgreSQL
 
-The ninth step was to run the latest project with PostgreSQL. The `.env` file was updated with `db_name`. The command used to run the project was:
-
-```bash
-$ php -S 0.0.0.0:80
-```
 
 The project was accessible at http://0.0.0.0.
 
