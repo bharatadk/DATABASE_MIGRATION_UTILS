@@ -1,3 +1,12 @@
+"""
+Export original mysql file from server.
+Edit the sql file:
+Replace /var/www/websites with /mnt/gigenet_volume/websites
+Replace http://rmedia.4dlspace.com static files with https://rmedia.sfo3.digitaloceanspaces.com/public_html
+Replace https://rmedia.intelladapt.com static files with https://rmedia.sfo3.digitaloceanspaces.com/public_html
+
+"""
+
 import os
 import cchardet
 
@@ -58,6 +67,5 @@ for file_name in file_list:
     print(f"♻ Processing file {file_name}")
     input_file_path = os.path.join(input_directory, file_name)
     output_file_path = os.path.join(ouput_directory, file_name)
-    # print(input_file_path, output_file_path)
     replace_unwanted_characters(input_file_path, output_file_path)
     print(f"✅ Processing file {file_name} : {count}")

@@ -1,8 +1,9 @@
-import sqlparse
 import os
+import sqlparse
+
 
 def extract_insert_statements(input_file, output_file):
-    with open(input_file, "r") as f:
+    with open(input_file, encoding="utf8", errors="ignore") as f:
         sql_content = f.read()
     print("reading sql_content finished")
 
@@ -17,22 +18,14 @@ def extract_insert_statements(input_file, output_file):
             if statement.get_type() == "INSERT":
                 f.write(str(statement))
                 num_inserts += 1
-                print(num_inserts, end="")
-
-    return num_inserts
 
 
 source_dir = "apostrophesavedsuccess"
 destination_dir = "insert_success"
-if not os.path.exists(destination_dir):
-    os.makedirs(destination_dir)
 count = 1
 if __name__ == "__main__":
-    all_files = os.listdir(source_dir)
-    for file in all_files:
-        print(f"\nStarting extracting from {file} ; count: {count}")
-        input_file = os.path.join(source_dir,file)
-        output_file = os.path.join(destination_dir,file)
-        num_inserts_found = extract_insert_statements(input_file, output_file)
-        count+=1
-
+    file = "aws_client_mdmooc.sql"
+    print(f"\nStarting extracting from {file} ; count: {count}")
+    input_file = os.path.join(source_dir, file)
+    output_file = os.path.join(destination_dir, file)
+    extract_insert_statements(input_file, output_file)

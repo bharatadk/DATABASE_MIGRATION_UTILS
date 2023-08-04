@@ -1,4 +1,7 @@
+import os
+import re
 import sqlparse
+
 
 # Define the desired order of tables
 table_order = [
@@ -60,9 +63,25 @@ table_order = [
     "hite_course_beacons",
 ]
 
+# Define the regex pattern
+pattern = r"--\n--\s*(.*?)\n--"
+
+
+# Remove all sql comments with regex
+def process_regex_data(file_path):
+    with open(file_path, "r", encoding="utf8", errors="ignore") as file:
+        content = file.read()
+
+    # Modify the content using regex substitution
+    modified_content = re.sub(pattern, "", content)
+
+    # Write the modified content back to the file
+    with open(file_path, "w", encoding="utf8") as file:
+        file.write(modified_content)
+
 
 def reorder_insert_statements(input_file, output_file, table_order):
-    with open(input_file, "r") as f:
+    with open(input_file, encoding="utf8", errors="ignore") as f:
         sql_content = f.read()
 
     # Parse the input SQL content
@@ -75,25 +94,39 @@ def reorder_insert_statements(input_file, output_file, table_order):
             insert_statements.append(str(statement))
     print("insert_statements finished")
 
+    # Sort the INSERT statements, handling missing tables gracefully
+    def get_table_name(statement):
+        return statement.split()[2]
+
     sorted_statements = sorted(
-        insert_statements, key=lambda x: table_order.index(x.split()[2])
+        insert_statements,
+        key=lambda x: table_order.index(get_table_name(x))
+        if get_table_name(x) in table_order
+        else len(table_order),
     )
+
     print("sorted_statements finished")
 
     # Write the sorted INSERT statements to the output file
     with open(output_file, "w") as f:
         f.write("\n".join(sorted_statements))
 
-    return len(sorted_statements)
 
+source_dir = "insert_success"
+destination_dir = "rearrange_insert_success"
+count = 1
+
+if not os.path.exists(destination_dir):
+    os.makedirs(destination_dir)
 
 if __name__ == "__main__":
-    input_sql_file = "test.sql"  # Replace with the path to your output SQL file
-    output_sql_file = (
-        "sorted_temp.sql"  # Replace with the desired path for the new SQL file
-    )
-
-    num_inserts_found = reorder_insert_statements(
-        input_sql_file, output_sql_file, table_order
-    )
-    print(f"Number of INSERT statements found and reordered: {num_inserts_found}")
+    all_files = [file for file in os.listdir(source_dir) if file.endswith(".sql")]
+    for file in all_files:
+        print(f"\nStarting extracting from {file} ; count: {count}")
+        input_file = os.path.join(source_dir, file)
+        output_file = os.path.join(destination_dir, file)
+        print("Regex sub....")
+        process_regex_data(input_file)
+        print("Regex sub finished")
+        reorder_insert_statements(input_file, output_file, table_order)
+        count += 1
