@@ -92,7 +92,7 @@ def reorder_insert_statements(input_file, output_file, table_order):
 source_dir = "insert_success"
 destination_dir = "rearrange_insert_success"
 if not os.path.exists(destination_dir):
-    os.mkdirs(destination_dir)
+    os.makedirs(destination_dir)
 count = 1
 if __name__ == "__main__":
     all_files = os.listdir(source_dir)
