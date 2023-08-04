@@ -1,5 +1,6 @@
 import sqlparse
 import os
+import re
 
 # Define the desired order of tables
 table_order = [
@@ -65,7 +66,10 @@ table_order = [
 def reorder_insert_statements(input_file, output_file, table_order):
     with open(input_file, "r") as f:
         sql_content = f.read()
-
+        
+    # Remove all sql comments with regex
+    sql_content = re.sub(r"/--\n--\s*(.*?)\n--", "", sql_content)
+    
     # Parse the input SQL content
     parsed = sqlparse.parse(sql_content)
 
