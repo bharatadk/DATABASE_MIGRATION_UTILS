@@ -1,6 +1,6 @@
-import sqlparse
 import os
 import re
+import sqlparse
 
 # Define the desired order of tables
 table_order = [
@@ -61,15 +61,26 @@ table_order = [
     "hite_user_course",
     "hite_course_beacons",
 ]
+# Define the regex pattern
+pattern = r"--\n--\s*(.*?)\n--"
+
+
+def process_regex_data(file_path):
+    with open(file_path, "r", encoding="utf8", errors="ignore") as file:
+        content = file.read()
+
+    # Modify the content using regex substitution
+    modified_content = re.sub(pattern, "", content)
+
+    # Write the modified content back to the file
+    with open(file_path, "w", encoding="utf8") as file:
+        file.write(modified_content)
 
 
 def reorder_insert_statements(input_file, output_file, table_order):
-    with open(input_file, "r") as f:
+    with open(input_file, encoding="utf8", errors="ignore") as f:
         sql_content = f.read()
-        
-    # Remove all sql comments with regex
-    sql_content = re.sub(r"/--\n--\s*(.*?)\n--", "", sql_content)
-    
+
     # Parse the input SQL content
     parsed = sqlparse.parse(sql_content)
 
@@ -84,7 +95,12 @@ def reorder_insert_statements(input_file, output_file, table_order):
     def get_table_name(statement):
         return statement.split()[2]
 
-    sorted_statements = sorted(insert_statements, key=lambda x: table_order.index(get_table_name(x)) if get_table_name(x) in table_order else len(table_order))
+    sorted_statements = sorted(
+        insert_statements,
+        key=lambda x: table_order.index(get_table_name(x))
+        if get_table_name(x) in table_order
+        else len(table_order),
+    )
 
     print("sorted_statements finished")
 
@@ -99,10 +115,11 @@ if not os.path.exists(destination_dir):
     os.makedirs(destination_dir)
 count = 1
 if __name__ == "__main__":
-    all_files = os.listdir(source_dir)
-    for file in all_files:
-        print(f"\nStarting extracting from {file} ; count: {count}")
-        input_file = os.path.join(source_dir,file)
-        output_file = os.path.join(destination_dir,file)
-        reorder_insert_statements(input_file, output_file, table_order)
-        count+=1
+    file = "aws_client_mdmooc.sql"
+    print(f"\nStarting rearranging from {file} ; count: {count}")
+    input_file = os.path.join(source_dir, file)
+    output_file = os.path.join(destination_dir, file)
+    print("Regex sub....")
+    process_regex_data(input_file)
+    print("Regex sub finished")
+    reorder_insert_statements(input_file, output_file, table_order)
