@@ -25,7 +25,7 @@ def extract_insert_statements(input_file, output_file):
 source_dir = "apostrophesavedsuccess"
 destination_dir = "insert_success"
 if not os.path.exists(destination_dir):
-    os.mkdirs(destination_dir)
+    os.makedirs(destination_dir)
 count = 1
 if __name__ == "__main__":
     all_files = os.listdir(source_dir)
