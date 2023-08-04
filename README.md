@@ -106,7 +106,8 @@ where `db_name` is the name of the database.
 
 ## The server PostgreSQL was restarted after this command.
 
-```sudo service postgresql restart
+```bash
+$ sudo service postgresql restart
 ```
 
 ## Run the insert query of hite_users table
