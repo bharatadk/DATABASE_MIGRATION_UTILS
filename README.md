@@ -77,6 +77,14 @@ The seventh step was to edit the SQL file again using a text editor. The followi
 
 The eighth step was to create a new database in pgAdmin using the same name as `db_name`.
 
+The code for migration and alter date is located in the `phinx.yml` file and the `db/migrations` folder of the latest HITE project. The `phinx.yml` file contains the configuration settings for the database connection and the migration paths. The `db/migrations` folder contains the PHP files that define the migration classes and methods. Each file has a timestamp and a name that describes the purpose of the migration. For example, the file `20210302111600_add_date_fields.php` adds date fields to various tables. The migration methods use the Phinx library to execute SQL queries and alter the database schema and data.
+
+## Run the migration using following command:
+
+```bash
+$ vendor/bin/phinx migrate -e development
+```
+
 ## Run the latest project with PostgreSQL
 
 The ninth step was to run the latest project with PostgreSQL. The `.env` file was updated with `db_name`. The command used to run the project was:
@@ -97,7 +105,10 @@ ALTER DATABASE db_name SET timezone TO 'UTC';
 
 where `db_name` is the name of the database.
 
-The server PostgreSQL was restarted after this command.
+## The server PostgreSQL was restarted after this command.
+
+```sudo service postgresql restart
+```
 
 ## Run the insert query of hite_users table
 
