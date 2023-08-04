@@ -2,7 +2,7 @@
 
 This document describes the steps and processes that were taken to convert a MySQL database to a PostgreSQL database for the HITE project. The conversion involved exporting the original MySQL file from the server, editing the SQL file, importing the updated SQL file to MySQL 5.6 in Docker, running the old project in Docker with MySQL, fixing and converting the data types, exporting the database in SQL format from phpMyAdmin, editing the SQL file again, creating a new database in pgAdmin, running the latest project with PostgreSQL, setting the database timezone to UTC, running the insert queries of the tables, and running the scripts to finalize the conversion. 
 
-For our project we wrote some scripts using selenium,os,sqlparse modules to semi-automate our tasks.
+✅ For our project we wrote some scripts using selenium,os,sqlparse modules to semi-automate our tasks.
 
 ## Export original MySQL file from server
 
