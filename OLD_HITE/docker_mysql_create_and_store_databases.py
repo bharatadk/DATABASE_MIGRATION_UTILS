@@ -26,7 +26,7 @@ def run_docker_command(command):
 
 
 def process_sql_file(sql_file_name):
-    copy_command = f"docker cp OUTPUT/{sql_file_name}.sql mysql_56:/{sql_file_name}.sql"
+    copy_command = f"docker cp /Users/bansaj/Downloads/apostrophesavedsuccess/mysql2/{sql_file_name}.sql mysql_56:/{sql_file_name}.sql"
     print(copy_command)
     run_docker_command(copy_command)
 
@@ -39,8 +39,9 @@ def process_sql_file(sql_file_name):
 
 
 # Get a list of all .sql files in the INPUT folder
-input_folder = "./OUTPUT"
-sql_files = [file for file in os.listdir(input_folder) if file.endswith(".sql")]
+input_folder = "/Users/bansaj/Downloads/apostrophesavedsuccess/mysql2"
+sql_files = [file for file in os.listdir(
+    input_folder) if file.endswith(".sql")]
 
 
 count = 0

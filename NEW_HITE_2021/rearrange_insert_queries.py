@@ -112,15 +112,16 @@ def reorder_insert_statements(input_file, output_file, table_order):
         f.write("\n".join(sorted_statements))
 
 
-source_dir = "insert_success"
-destination_dir = "rearrange_insert_success"
+source_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/insert_success"
+destination_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/rearrange_insert_success"
 count = 1
 
 if not os.path.exists(destination_dir):
     os.makedirs(destination_dir)
 
 if __name__ == "__main__":
-    all_files = [file for file in os.listdir(source_dir) if file.endswith(".sql")]
+    all_files = [file for file in os.listdir(
+        source_dir) if file.endswith(".sql")]
     for file in all_files:
         print(f"\nStarting extracting from {file} ; count: {count}")
         input_file = os.path.join(source_dir, file)

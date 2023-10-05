@@ -57,9 +57,10 @@ def create_output_directory(directory_path):
 
 
 current_directory = os.path.join(os.getcwd())
-input_directory = os.path.join(current_directory, "INPUT")
-ouput_directory = os.path.join(current_directory, "OUTPUT")
-file_list = [file for file in os.listdir(input_directory) if file.endswith(".sql")]
+input_directory = '/Users/bansaj/Downloads/apostrophesavedsuccess/mysql1'
+ouput_directory = '/Users/bansaj/Downloads/apostrophesavedsuccess/mysql2'
+file_list = [file for file in os.listdir(
+    input_directory) if file.endswith(".sql")]
 count = 0
 
 for file_name in file_list:

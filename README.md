@@ -1,9 +1,9 @@
 # MySQL to PostgreSQL Conversion Guide
 
-This document describes the steps and processes that were taken to convert a MySQL database to a PostgreSQL database for the HITE project. The conversion involved exporting the original MySQL file from the server, editing the SQL file, importing the updated SQL file to MySQL 5.6 in Docker, running the old project in Docker with MySQL, fixing and converting the data types, exporting the database in SQL format from phpMyAdmin, editing the SQL file again, creating a new database in pgAdmin, running the latest project with PostgreSQL, setting the database timezone to UTC, running the insert queries of the tables, and running the scripts to finalize the conversion. 
+This document describes the steps and processes that were taken to convert a MySQL database to a PostgreSQL database for the HITE project. The conversion involved exporting the original MySQL file from the server, editing the SQL file, importing the updated SQL file to MySQL 5.6 in Docker, running the old project in Docker with MySQL, fixing and converting the data types, exporting the database in SQL format from phpMyAdmin, editing the SQL file again, creating a new database in pgAdmin, running the latest project with PostgreSQL, setting the database timezone to UTC, running the insert queries of the tables, and running the scripts to finalize the conversion.
 
 ✅ For our project we wrote some scripts using selenium,os,sqlparse modules to semi-automate our tasks.<br>
-✅ We ran the scripts of OLD_HITE folder for old project and dumped mysql file  and NEW_HITE_2021 project for new project.
+✅ We ran the scripts of OLD_HITE folder for old project and dumped mysql file and NEW_HITE_2021 project for new project.
 
 ## Export original MySQL file from server
 
@@ -76,8 +76,7 @@ The seventh step was to edit the SQL file again using a text editor. The followi
 ## Create a new database in pgAdmin
 
 The eighth step was to create a new database in pgAdmin using the same name as `db_name`.
-The `.env` file was updated with `db_name`. 
-
+The `.env` file was updated with `db_name`.
 
 ## Run the migration using following command:
 
@@ -86,7 +85,6 @@ $ vendor/bin/phinx migrate -e development
 ```
 
 ## Run the latest project with PostgreSQL
-
 
 The project was accessible at http://0.0.0.0.
 
@@ -118,8 +116,45 @@ The twelfth and final step was to run the scripts to finalize the conversion usi
 - http://0.0.0.0/fix-index.php?link=1
 
 Now insert all the other databases using commad \i source.sql. Finally run the last browser script.
-  
+
 - http://0.0.0.0/fix-index.php?link=2
 
+If successful, “Done \*” would be displayed on screen.
 
-If successful, “Done *” would be displayed on screen.
+## Steps to run
+
+In old Mysql:
+
+1. Copy/move the db you want to convert inside folder apostrophesavedsuccess/mysql1
+
+2. Replace path in the database
+   $ python OLD_HITE/replace_static_url.py
+
+3. Copy the mysql file to docker
+   $ python OLD_HITE/docker_mysql_create_and_store_databases.py
+
+4. Convert data in mysql
+   $ python OLD_HITE/docker_mysql_dump_sql_after_scripts.py
+
+   - update database names in database_list[] array
+
+5. Copy the downloaded file to need_to_remove_apostrophe folder. To remove quotes:
+   $ python NEW_HITE_2021/replace_characters_apostrophe_tilde.py
+
+6. Copy the sql file from need_to_remove_apostrophe folder to apostrophesavedsuccess folder. To extract only insert queries
+   $ python NEW_HITE_2021/extract_insert_queries.py
+
+7. To rearrange insert queries:
+   $ python NEW_HITE_2021/rearrange_insert_queries.py
+
+8. Rewrite insert query
+   $ python NEW_HITE_2021/overwrite_insert_query.py
+
+9. Go to pgadmin and create a new database
+
+10. Open the latest hite project. Update env file with the new database name.
+    Run the command in the terminal using phinx:
+    $ vendor/bin/phinx migrate -e development
+
+Then follow steps from:
+https://docs.google.com/document/d/1Nj9U6OefzHfsycMff9FJEsl_atQkHV3BelG8g1CoxPc/edit#heading=h.nyaffl70hvh0

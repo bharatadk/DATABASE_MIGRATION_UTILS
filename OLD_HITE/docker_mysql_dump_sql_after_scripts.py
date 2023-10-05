@@ -50,10 +50,10 @@ def open_scripts_from_broswer(db_name):
     # options = webdriver.ChromeOptions()
     # options.add_argument("--headless")
     # options.add_argument("--no-sandbox")
-    ##provide location where chrome stores profiles
+    # provide location where chrome stores profiles
     # options.add_argument(r"--user-data-dir=/home/bharat/.config/google-chrome")
 
-    ##provide the profile name with which we want to open browser
+    # provide the profile name with which we want to open browser
     # options.add_argument(r'--profile-directory=Profile 3')
 
     # specify where your chrome driver present in your pc
@@ -86,7 +86,8 @@ def open_scripts_from_broswer(db_name):
     driver.find_element(By.ID, "input_go").submit()
     time.sleep(5)
 
-    driver.get(f"http://0.0.0.0:8080/index.php?route=/database/export&db={db_name}")
+    driver.get(
+        f"http://0.0.0.0:8080/index.php?route=/database/export&db={db_name}")
     time.sleep(5)
 
     driver.find_element(By.ID, "buttonGo").submit()
@@ -96,57 +97,7 @@ def open_scripts_from_broswer(db_name):
 
 
 database_list = [
-    "sls_client_abl_demo",
-    "sls_client_amol6",
-    "sls_client_auag2",
-    "sls_client_auag",
-    "sls_client_auc",
-    "sls_client_bigdata",
-    "sls_client_blank",
-    "sls_client_calculus",
-    "sls_client_chaminade",
-    "sls_client_course360",
-    "sls_client_dd",
-    "sls_client_dtoc",
-    "sls_client_flvs_live",
-    "sls_client_flvs",
-    "sls_client_hite2",
-    "sls_client_hite4",
-    "sls_client_hite_s1",
-    "sls_client_hite_s2",
-    "sls_client_hite_s3",
-    "sls_client_hite",
-    "sls_client_hult",
     "sls_client_idemo",
-    "sls_client_idesigner",
-    "sls_client_iuea",
-    "sls_client_landmark",
-    "sls_client_lms_demo2",
-    "sls_client_lms_demo",
-    "sls_client_lms_live2",
-    "sls_client_lms_live",
-    "sls_client_lmssand",
-    "sls_client_lms",
-    "sls_client_loadtest2",
-    "sls_client_loadtest",
-    "sls_client_mcl_demo",
-    "sls_client_mcl",
-    "sls_client_mi",
-    "sls_client_modules",
-    "sls_client_mooc2",
-    "sls_client_mooc_dev",
-    "sls_client_mooc_live",
-    "sls_client_mooc",
-    "sls_client_nova_live",
-    "sls_client_nova",
-    "sls_client_recover",
-    "sls_client_sgl_demo",
-    "sls_client_sgl",
-    "sls_client_spb",
-    "sls_client_stleo",
-    "sls_client_testprep",
-    "sls_client_test",
-    "sls_client_tmpl_academic",
 ]
 
 if __name__ == "__main__":
@@ -157,7 +108,12 @@ if __name__ == "__main__":
         update_env_variable("DB_NAME", db_name)
         time.sleep(2)
 
-        run_docker_command("docker-compose restart")
+        run_docker_command(
+            "docker-compose -f /Applications/MAMP/htdocs/hite_old/docker-compose.yml down")
+        time.sleep(20)
+
+        run_docker_command(
+            "docker-compose -f /Applications/MAMP/htdocs/hite_old/docker-compose.yml up -d")
         time.sleep(10)
 
         print("🐋 Docker container restarted")

@@ -20,8 +20,8 @@ def extract_insert_statements(input_file, output_file):
                 num_inserts += 1
 
 
-source_dir = "apostrophesavedsuccess"
-destination_dir = "insert_success"
+source_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/apostrophesavedsuccess"
+destination_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/insert_success"
 count = 1
 if __name__ == "__main__":
     file = "aws_client_mdmooc.sql"
