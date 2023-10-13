@@ -111,9 +111,8 @@ def reorder_insert_statements(input_file, output_file, table_order):
     with open(output_file, "w") as f:
         f.write("\n".join(sorted_statements))
 
-
-source_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/insert_success"
-destination_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/rearrange_insert_success"
+source_dir = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'insert_success')
+destination_dir = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'rearrange_insert_success')
 count = 1
 
 if not os.path.exists(destination_dir):

@@ -8,13 +8,13 @@ Replace https://rmedia.intelladapt.com static files with https://rmedia.sfo3.dig
 """
 
 import os
-import cchardet
-
+import chardet
+import codecs
 
 def replace_unwanted_characters(input_file_path, output_file_path):
+    # Detect the encoding of the input file
     with open(input_file_path, "rb") as input_file:
-        # Use cchardet to detect the encoding of the file
-        detector = cchardet.UniversalDetector()
+        detector = chardet.universaldetector.UniversalDetector()
         for line in input_file:
             detector.feed(line)
             if detector.done:
@@ -26,11 +26,9 @@ def replace_unwanted_characters(input_file_path, output_file_path):
         if not encoding:
             encoding = "utf-8"
 
-        # Read the content of the file as binary data
+    # Read the content of the file using the detected or fallback encoding
+    with codecs.open(input_file_path, "r", encoding=encoding, errors="replace") as input_file:
         file_content = input_file.read()
-
-    # Decode the binary data using the detected or fallback encoding
-    file_content = file_content.decode(encoding, errors="replace")
 
     replacements = [
         ("/var/www/websites", "/mnt/gigenet_volume/websites"),
@@ -47,7 +45,8 @@ def replace_unwanted_characters(input_file_path, output_file_path):
     for original, replacement in replacements:
         file_content = file_content.replace(original, replacement)
 
-    with open(output_file_path, "w", encoding=encoding) as output_file:
+    # Write the modified content to the output file
+    with codecs.open(output_file_path, "w", encoding=encoding) as output_file:
         output_file.write(file_content)
 
 
@@ -56,9 +55,13 @@ def create_output_directory(directory_path):
         os.makedirs(directory_path)
 
 
-current_directory = os.path.join(os.getcwd())
-input_directory = '/Users/bansaj/Downloads/apostrophesavedsuccess/mysql1'
-ouput_directory = '/Users/bansaj/Downloads/apostrophesavedsuccess/mysql2'
+FILES_DIR = os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles')
+input_directory = os.path.join(FILES_DIR, 'mysql1')
+ouput_directory = os.path.join(FILES_DIR, 'mysql2')
+
+if not os.path.exists(ouput_directory):
+    os.makedirs(ouput_directory)
+
 file_list = [file for file in os.listdir(
     input_directory) if file.endswith(".sql")]
 count = 0

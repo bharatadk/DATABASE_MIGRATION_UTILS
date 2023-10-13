@@ -30,5 +30,5 @@ def process_sql_files(folder_path):
 
 
 if __name__ == "__main__":
-    folder_path = "/Users/bansaj/Downloads/apostrophesavedsuccess/need_to_remove_apostrophe"
+    folder_path = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'), 'need_to_remove_apostrophe')
     process_sql_files(folder_path)

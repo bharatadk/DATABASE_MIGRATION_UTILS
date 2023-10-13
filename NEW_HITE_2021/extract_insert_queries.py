@@ -20,8 +20,8 @@ def extract_insert_statements(input_file, output_file):
                 num_inserts += 1
 
 
-source_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/apostrophesavedsuccess"
-destination_dir = "/Users/bansaj/Downloads/apostrophesavedsuccess/insert_success"
+source_dir = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'need_to_remove_apostrophe')
+destination_dir = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'insert_success')
 count = 1
 
 if not os.path.exists(destination_dir):

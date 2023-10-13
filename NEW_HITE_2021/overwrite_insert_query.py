@@ -2,9 +2,9 @@ import os
 import re
 
 # Path to the folder containing SQL files
-input_folder = "/Users/bansaj/Downloads/apostrophesavedsuccess/rearrange_insert_success"
+input_folder = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'rearrange_insert_success')
 # Path to the folder to save modified SQL files
-output_folder = "/Users/bansaj/Downloads/apostrophesavedsuccess/final_sql"
+output_folder = os.path.join(os.path.join(os.path.dirname(os.getcwd()), 'sqlfiles'),'final_sql')
 
 # Define a regular expression pattern to match INSERT statements
 insert_pattern = r"INSERT\s+INTO\s+(\w+)\s*\((.*?)\)\s*VALUES\s*\((.*?)\)\s*;"

@@ -125,36 +125,41 @@ If successful, “Done \*” would be displayed on screen.
 
 In old Mysql:
 
-1. Copy/move the db you want to convert inside folder apostrophesavedsuccess/mysql1
+1. Copy/move the db you want to convert inside folder sqlfiles/mysql1
 
 2. Replace path in the database
-   $ python OLD_HITE/replace_static_url.py
+   ``` $ cd OLD_HITE && python3 replace_static_url.py ```
 
 3. Copy the mysql file to docker
-   $ python OLD_HITE/docker_mysql_create_and_store_databases.py
+   ``` $ cd OLD_HITE && python3 docker_mysql_create_and_store_databases.py ```
 
 4. Convert data in mysql
-   $ python OLD_HITE/docker_mysql_dump_sql_after_scripts.py
+   ``` $ cd OLD_HITE && python3 docker_mysql_dump_sql_after_scripts.py ```
 
    - update database names in database_list[] array
+5. Run step 6 to 9 in one command
+   ``` $ cd  NEW_HITE_2021 && source run.sh ```
 
-5. Copy the downloaded file to need_to_remove_apostrophe folder. To remove quotes:
-   $ python NEW_HITE_2021/replace_characters_apostrophe_tilde.py
+OR
 
-6. Copy the sql file from need_to_remove_apostrophe folder to apostrophesavedsuccess folder. To extract only insert queries
-   $ python NEW_HITE_2021/extract_insert_queries.py
+6. To remove quotes:
+   ``` $ python3 replace_characters_apostrophe_tilde.py ```
 
-7. To rearrange insert queries:
-   $ python NEW_HITE_2021/rearrange_insert_queries.py
+7. To extract only insert queries
+   ``` $ python3 extract_insert_queries.py ```
 
-8. Rewrite insert query
-   $ python NEW_HITE_2021/overwrite_insert_query.py
+8. To rearrange insert queries:
+   ``` $ python3 rearrange_insert_queries.py ```
 
-9. Go to pgadmin and create a new database
+9. Rewrite insert query
+   ``` $ python3 overwrite_insert_query.py ```
 
-10. Open the latest hite project. Update env file with the new database name.
+10. Go to pgadmin and create a new database
+
+11. Open the latest hite project. Update env file with the new database name.
     Run the command in the terminal using phinx:
-    $ vendor/bin/phinx migrate -e development
+    ``` $ vendor/bin/phinx migrate -e development ```
 
 Then follow steps from:
 https://docs.google.com/document/d/1Nj9U6OefzHfsycMff9FJEsl_atQkHV3BelG8g1CoxPc/edit#heading=h.nyaffl70hvh0
+ 
